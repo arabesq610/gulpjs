@@ -1,0 +1,29 @@
+{
+    "name": "gulpjs",
+    "version": "0.1.0",
+    "description": "Pluralsight course https://app.pluralsight.com/library/courses/javascript-build-automation-gulpjs",
+    "main": "index.js",
+    "scripts": {
+        "init": "npm install",
+        "install": "bower install",
+        "start": "node src/server/app.js",
+        "test": "gulp test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/arabesq610/gulpjs.git"
+    },
+    "keywords": [
+        "gulp",
+        "angular"
+    ],
+    "author": "Elizabeth Linn <elise_81@yahoo.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/arabesq610/gulpjs/issues"
+    },
+    "homepage": "https://github.com/arabesq610/gulpjs#readme",
+    "devDependencies": {
+        "gulp": "^3.9.1"
+    }
+}

@@ -32,4 +32,4 @@
             $state.go('customer.detail', {id: c.id});
         }
     }
-})();
+}());

@@ -28,11 +28,11 @@ gulp.watch (watch files for changes)
 
 Pipeline
 --------
-# dev
-# analyze
-# test 
-# build 
-# deploy
+- dev
+- analyze
+- test 
+- build 
+- deploy
 
 
 

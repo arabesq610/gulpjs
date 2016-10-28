@@ -1,5 +1,9 @@
 var gulp = require('gulp');
+
+
 var args = require('yargs').argv;
+
+
 
 /**
  * Returns an object with the following properties:
@@ -12,11 +16,16 @@ var args = require('yargs').argv;
 var config = require('./gulp.config')();
 
 
+
 var del = require('del'); // not a gulp package; just NPM
+
+
 
 var $ = require('gulp-load-plugins')({
     lazy: true
 });
+
+
 
 // var jshint = require('gulp-jshint');
 // var jscs = require('gulp-jscs');
@@ -25,11 +34,14 @@ var $ = require('gulp-load-plugins')({
 // var gulpprint = require('gulp-print');
 // var gulpif = require('gulp-if');
 
+
+
 // Are we in verbose mode
 var isVerbose = args.verbose;
 
 
 ///  other stuffs
+
 
 
 /**
@@ -47,22 +59,6 @@ function log(msg) {
         $.util.log($.util.colors.blue(msg));
     }
 }
-
-
-
-/**
- * Error logger
- * @param  {} err [description]
- * @return {[type]}     [description]
- */
-function errorLogger(err) {
-    'use strict';
-    log('*** ERROR START ***');
-    log(err);
-    log('*** ERROR END ***');
-    this.emit('end');
-}
-
 
 
 /**
@@ -93,14 +89,19 @@ gulp.task('vet', function () {
 });
 
 
+/**
+ * Uses plumber to handle errors encountered during less transpilation more
+ * gracefully.
+ *
+ * @see gulp plumber https://www.npmjs.com/package/gulp-plumber
+ */
 gulp.task('styles', ['clean-styles'], function () {
     'use strict';
     log('Compiling Less to CSS');
     return gulp
         .src(config.less)
-        // .pipe($.plumber())
+        .pipe($.plumber())
         .pipe($.less())
-        .on('error', errorLogger)
         .pipe($.autoprefixer({
             browsers: ['last 2 version', '> 5%']
         }))
@@ -133,4 +134,17 @@ gulp.task('clean-styles', function (callback) {
 gulp.task('less-watcher', function () {
     'use strict';
     gulp.watch([config.less], ['styles']);
+});
+
+
+
+gulp.task('wiredep', function () {
+    'use strict';
+    var options = config.getWiredepDefaultOptions();
+    var wiredep = require('wiredep').stream;
+    return gulp
+        .src(config.index)
+        .pipe(wiredep(options))
+        .pipe($.inject(gulp.src(config.js)))
+        .pipe(gulp.dest(config.client));
 });
